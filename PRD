@@ -1,0 +1,65 @@
+PRD: INTEGRAÇÃO GITHUB & WORKFLOW DE DESENVOLVIMENTO
+Projeto: WEVOLUTION LNF 2026
+
+Status: Migração de Lovable para Local/GitHub
+
+Responsável: Senior Analytics Consultant
+
+1. Objetivos Técnicos da Integração
+Versionamento: Manter um histórico de todas as alterações feitas no Dashboard.
+
+Independência: Permitir edições ilimitadas no código sem depender de créditos de plataformas externas.
+
+Colaboração: Permitir que múltiplos consultores/desenvolvedores trabalhem no projeto.
+
+CI/CD (Continuous Deployment): Garantir que, ao fazer "Push" para o GitHub, o site seja atualizado automaticamente.
+
+2. Arquitetura do Repositório
+O repositório no GitHub deve seguir a estrutura padrão de um projeto React + Vite:
+
+/src/components: Onde residirão os cartões de KPIs, os gráficos das 6 Escolas e a Chatbox.
+
+/src/lib: Configuração do cliente Supabase (supabaseClient.js).
+
+/src/pages: Páginas de Dashboard e Login por Escola.
+
+.env: Ficheiro local (não enviado para o GitHub por segurança) com as chaves do Supabase.
+
+README.md: Documentação com o mapeamento "OBA = Direção" e as cores das Escolas.
+
+3. Workflow de Implementação (Passo a Passo)
+A. Sincronização Inicial
+Exportação: Usar a ferramenta "Export to GitHub" no Lovable.
+
+Clone: Trazer o código para o ambiente local (VS Code).
+
+B. Gestão de Variáveis de Ambiente
+Para evitar que as chaves do Supabase da Fidelidade fiquem públicas no GitHub:
+
+Criar um ficheiro .gitignore que inclua .env.
+
+As chaves devem ser configuradas nas "GitHub Actions Secrets" para o deploy automático.
+
+C. Estratégia de Branching (Ramificações)
+main: Versão estável em produção (o que a administração vê).
+
+dev: Onde são testadas as novas funções (ex: a nova Chatbox ou os filtros de OBA).
+
+4. Configuração do Deploy (Hospedagem)
+Para que o dashboard esteja online 24/7 sem custos:
+
+Vercel ou Netlify: Conectar o repositório GitHub.
+
+Trigger: Cada vez que fizeres git push origin main, o site é reconstruído e publicado em segundos.
+
+5. Segurança & Auditoria
+Proteção de Branch: Impedir que alguém apague a branch principal sem revisão.
+
+Audit Log: O GitHub registará quem alterou o quê (essencial para o modelo de 6 Escolas onde cada uma tem a sua responsabilidade).
+
+6. Checklist de Lançamento Local
+[ ] Repo Privado: O projeto deve ser "Private" no GitHub (segurança de dados da Fidelidade).
+
+[ ] Supabase Connected: Verificar se o npm run dev consegue ler a tabela LNF 2026 Master.
+
+[ ] Vite Config: Garantir que o build está otimizado para performance.
